@@ -6,7 +6,16 @@ Copyright (C) 2013 by Philipp Rackevei
 
 Licensed under WTFPL License (See LICENSE.md file)
 
-# Usage
+[Available on Github](https://github.com/philipp-r/PHP-Backup-Script "PHP Backup Script on Github")
+
+[Website](http://8qq.de/phil/php-backup.php "PHP Backup Script Website")
+
+## Info
+
+This is a PHP Script which can backup multiple MySQL Databases and Directories to an external FTP Server.
+It creates a ZIP-archive of the Directory and of the .sql files and uploads them via FTP.
+
+## Usage
 
 * Upload all files to your web space
 
