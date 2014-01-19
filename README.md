@@ -8,7 +8,7 @@ Licensed under WTFPL License (See LICENSE.md file)
 
 [Available on Github](https://github.com/philipp-r/PHP-Backup-Script "PHP Backup Script on Github")
 
-[Website](http://8qq.de/phil/php-backup/ "PHP Backup Script Website")
+[Website](http://8qq.de/php-backup/ "PHP Backup Script Website")
 
 ## Info
 
