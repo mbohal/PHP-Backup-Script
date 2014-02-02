@@ -1,12 +1,23 @@
 <?php
 
 /* *****************************************
+	General
+***************************************** */
+define("METHOD", ""); // The backup method ("email" or "ftp")
+
+/* *****************************************
 	FTP Settings
 ***************************************** */
 define("FTPSERVER", ""); // The FTP server
 define("FTPUSER", ""); // Your FTP username
 define("FTPPASS", ""); // Your FTP password
 define("FTPDIR", ""); // The directory to upload the backup
+
+/* *****************************************
+	Email Settings
+***************************************** */
+define("EMAILTO", ""); // The Email Address (To)
+define("EMAILFROM", ""); // The "from" Email Address
 
 /* *****************************************
 	MySQL Settings

@@ -1,50 +1,105 @@
 <?php
 
+// the configuration file
 require "backup-mysql.cfg.php";
 
+// check the security keys
 if($_GET['KEY_GET1'] != KEY_GET1 || $_GET['KEY_GET2'] != KEY_GET2){
 	die;
 }
+
+// set errors & time limit
+error_reporting(E_ALL);
+set_time_limit(240);
+
+/* *****************************************
+	ZIP Creation Function
+***************************************** */
+function createZipFile($name){
+	// create .zip archive
+	$zip = new ZipArchive();
+	$zip->open("mysql-".$name.".zip", ZIPARCHIVE::CREATE);
+	// add the .sql file
+	$zip->addFile("mysql-".$name.".sql");
+	$zip->close();
+	// delete the .sql file
+	unlink("mysql-".$name.".sql");
+	echo " ZIP archive created \n ";
+}
+
 
 /* *****************************************
 	FTP Upload Function
 ***************************************** */
 function ftpSend($filename){
-	echo "START FTP UPLOAD // ";
-	$conn_id = ftp_connect(FTPSERVER, 21) or die ("Cannot connect to host // ");
-	$login_result = ftp_login($conn_id, FTPUSER, FTPPASS) or die("Cannot login // ");
+	echo "Start FTP Upload \n ";
+	// connect to server
+	$conn_id = ftp_connect(FTPSERVER, 21) or die ("Cannot connect to host \n ");
+	$login_result = ftp_login($conn_id, FTPUSER, FTPPASS) or die("Cannot login \n ");
+	// go to the directory
 	if (ftp_chdir($conn_id, FTPDIR)) {
-		echo "Changed directory to: ".FTPDIR." // ";
+		echo "Changed directory to: ".FTPDIR." \n ";
 	} else {
-		die("Error while changing directory to ".FTPDIR." // ");
+		die("Error while changing directory to ".FTPDIR." \n ");
 	}
-	if (ftp_put($conn_id, $filename, $filename, FTP_BINARY)) {
-		echo "$filename uploaded // ";
+	// upload the file
+	if (ftp_put($conn_id, date("Y-m-d_H-i_").$filename, $filename, FTP_BINARY)) {
+		echo "$filename uploaded \n ";
 	} else {
-		die("Error while uploading $filename // ");
+		die("Error while uploading $filename \n ");
 		
 	}
 	ftp_close($conn_id);
+	// delete the local file
 	unlink($filename);
-	echo "END FTP UPLOAD // // ";
+	echo "End FTP Upload \n ";
 }
 
+/* *****************************************
+	FTP Upload Function
+***************************************** */
+function emailSend($filename){
+	$mail = "";
+	require_once 'phpmailer/PHPMailerAutoload.php';
+	//Create a new PHPMailer instance
+	$mail = new PHPMailer();
+	//Set who the message is to be sent from
+	$mail->setFrom(EMAILFROM, EMAILFROM);
+	//Set who the message is to be sent to
+	$mail->addAddress(EMAILTO, EMAILTO);
+	//Set the subject line
+	$mail->Subject = 'MySQL Backup: '.$filename.' from: '.date("Y-m-d H:i");
+	// Email Body
+	$mail->Body = 'This is the MySQL Backup \n  '.$filename.' ';
+	$mail->AltBody = 'This is the MySQL Backup \n '.$filename.' ';
+	//Attachment (Backup)
+	$mail->addAttachment($filename);
+	//send the message, check for errors
+	if (!$mail->send()) {
+	    echo "Mailer Error: " . $mail->ErrorInfo;
+	} else {
+	    echo "Message sent!";
+	}
+	$mail->ClearAddresses();
+	// delete local file
+	unlink($filename);
+}
 
 
 /* *****************************************
 	The MySQL Backup
 ***************************************** */
 // start
-error_reporting(0);
-set_time_limit(0);
-echo "MySQL Backup Started // ";
+echo "MySQL Backup Started \n ";
 
 foreach($DBNAMES as $dbname){
 	$name = $dbname;
-	// create the mysql backup
+	// connect to db
 	$conn = mysql_connect(DBHOST, DBUSER, DBPASS) or die(mysql_error());
 	mysql_select_db($dbname);
-	$f = fopen("mysql-".$name."-".date("Y_m_d-H_i").".sql", "w");
+	// create the backup file
+	$f = fopen("mysql-".$name.".sql", "w");
+	// create the MySQL backup
 	$tables = mysql_list_tables($dbname);
 	while ($cells = mysql_fetch_array($tables)){
 	    $table = $cells[0];
@@ -67,21 +122,22 @@ foreach($DBNAMES as $dbname){
 	        }
 	    }
 	}
+	// finished
 	fclose($f);
-	echo "MySQL backup of ".$dbname." was successful // ";
+	echo "MySQL backup of ".$dbname." was successful \n ";
 	
 	// put .sql in zip archive
-	$zip = new ZipArchive();
-	$zip->open("mysql-".$name."-".date("Y_m_d-H_i").".zip", ZIPARCHIVE::CREATE);
-	$zip->addFile("mysql-".$name."-".date("Y_m_d-H_i").".sql");
-	$zip->close();
-	unlink("mysql-".$name."-".date("Y_m_d-H_i").".sql");
-	echo " ZIP archive created // ";
+	createZipFile($name);
 
-	// upload to ftp
-	ftpSend("mysql-".$name."-".date("Y_m_d-H_i").".zip");
+	if(METHOD == "ftp"){
+		// upload the .zip to ftp
+		ftpSend("mysql-".$name.".zip");
+	}elseif(METHOD == "email"){
+		// send the .zip file via mail
+		emailSend("mysql-".$name.".zip");
+	}
 }
-echo " END MYSQLBACKUP // // ";
+echo "End MySQL Backup \n ";
 
 
 

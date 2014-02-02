@@ -2,6 +2,8 @@
 
 require "backup-files.cfg.php";
 
+
+
 if($_GET['KEY_GET1'] != KEY_GET1 || $_GET['KEY_GET2'] != KEY_GET2){
 	die;
 }
