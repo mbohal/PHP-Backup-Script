@@ -56,7 +56,7 @@ function ftpSend($filename){
 }
 
 /* *****************************************
-	FTP Upload Function
+	Email Function
 ***************************************** */
 function emailSend($filename){
 	$mail = "";
