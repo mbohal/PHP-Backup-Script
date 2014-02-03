@@ -29,64 +29,6 @@ function createZipFile($name){
 
 
 /* *****************************************
-	FTP Upload Function
-***************************************** */
-function ftpSend($filename){
-	echo "Start FTP Upload \n ";
-	// connect to server
-	$conn_id = ftp_connect(FTPSERVER, 21) or die ("Cannot connect to host \n ");
-	$login_result = ftp_login($conn_id, FTPUSER, FTPPASS) or die("Cannot login \n ");
-	// go to the directory
-	if (ftp_chdir($conn_id, FTPDIR)) {
-		echo "Changed directory to: ".FTPDIR." \n ";
-	} else {
-		die("Error while changing directory to ".FTPDIR." \n ");
-	}
-	// upload the file
-	if (ftp_put($conn_id, date("Y-m-d_H-i_").$filename, $filename, FTP_BINARY)) {
-		echo "$filename uploaded \n ";
-	} else {
-		die("Error while uploading $filename \n ");
-		
-	}
-	ftp_close($conn_id);
-	// delete the local file
-	unlink($filename);
-	echo "End FTP Upload \n ";
-}
-
-/* *****************************************
-	Email Function
-***************************************** */
-function emailSend($filename){
-	$mail = "";
-	require_once 'phpmailer/PHPMailerAutoload.php';
-	//Create a new PHPMailer instance
-	$mail = new PHPMailer();
-	//Set who the message is to be sent from
-	$mail->setFrom(EMAILFROM, EMAILFROM);
-	//Set who the message is to be sent to
-	$mail->addAddress(EMAILTO, EMAILTO);
-	//Set the subject line
-	$mail->Subject = 'MySQL Backup: '.$filename.' from: '.date("Y-m-d H:i");
-	// Email Body
-	$mail->Body = 'This is the MySQL Backup \n  '.$filename.' ';
-	$mail->AltBody = 'This is the MySQL Backup \n '.$filename.' ';
-	//Attachment (Backup)
-	$mail->addAttachment($filename);
-	//send the message, check for errors
-	if (!$mail->send()) {
-	    echo "Mailer Error: " . $mail->ErrorInfo;
-	} else {
-	    echo "Message sent!";
-	}
-	$mail->ClearAddresses();
-	// delete local file
-	unlink($filename);
-}
-
-
-/* *****************************************
 	The MySQL Backup
 ***************************************** */
 // start
@@ -131,9 +73,11 @@ foreach($DBNAMES as $dbname){
 
 	if(METHOD == "ftp"){
 		// upload the .zip to ftp
+		require_once "classes/ftp-upload.php";
 		ftpSend("mysql-".$name.".zip");
 	}elseif(METHOD == "email"){
 		// send the .zip file via mail
+		require_once "classes/email-send.php";
 		emailSend("mysql-".$name.".zip");
 	}
 }

@@ -4,6 +4,8 @@
 	General
 ***************************************** */
 define("METHOD", ""); // The backup method ("email" or "ftp")
+// Not supported yet:
+// define("DELTIME", 0); // Delete files (on FTP server) which are older than this time (in seconds)
 
 /* *****************************************
 	FTP Settings

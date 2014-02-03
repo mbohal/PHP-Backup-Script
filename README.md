@@ -1,6 +1,6 @@
 # PHP Backup Script
 
-Version 1.2
+Version 1.2.1
 
 Copyright (C) 2014 by Philipp Rackevei
 
@@ -13,7 +13,9 @@ Licensed under GNU GPL v3 License (See LICENSE.md file)
 ## Info
 
 This is a PHP Script which can backup multiple MySQL Databases and Directories to an external FTP Server.
+
 It creates a ZIP-archive of the Directory and of the .sql files and uploads them via FTP.
+
 You can also send the backups to your email address using the [PHPMailer](https://github.com/PHPMailer/PHPMailer) class
 
 ## Usage
