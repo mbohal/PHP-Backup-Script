@@ -1,5 +1,5 @@
 <?php
-function emailSend($filename, $type){
+function emailSend($filename){
 	$mail = "";
 	require_once 'phpmailer/PHPMailerAutoload.php';
 	//Create a new PHPMailer instance
