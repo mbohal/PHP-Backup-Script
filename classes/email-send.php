@@ -9,7 +9,7 @@ function emailSend($filename){
 	//Set who the message is to be sent to
 	$mail->addAddress(EMAILTO, EMAILTO);
 	//Set the subject line
-	$mail->Subject = 'Backup: '.$filename.' from: '.date("Y-m-d H:i");
+	$mail->Subject = EMAILSUBJ;
 	// Email Body
 	$mail->Body = 	 "This is the Backup \n \n ".$filename." ";
 	$mail->AltBody = "This is the Backup \n \n ".$filename." ";

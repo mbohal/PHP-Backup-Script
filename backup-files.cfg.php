@@ -18,6 +18,7 @@ define("FTPDIR", ""); // The directory to upload the backup
 ***************************************** */
 define("EMAILTO", ""); // The Email Address (To)
 define("EMAILFROM", ""); // The "from" Email Address
+define("EMAILSUBJ", ""); // The Email Subject
 
 /* *****************************************
 	Directory Settings

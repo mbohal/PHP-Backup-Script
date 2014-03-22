@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3 (March 22, 2014)
+* You can now change the Subject of the Email
+
 ## 1.2.1 (Feb 3, 2014)
 * File Backups via Email
 * Some other changes

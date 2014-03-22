@@ -1,6 +1,6 @@
 # PHP Backup Script
 
-Version 1.2.1
+Version 1.3
 
 Copyright (C) 2014 by Philipp Rackevei
 
@@ -8,7 +8,6 @@ Licensed under GNU GPL v3 License (See LICENSE.md file)
 
 [Available on Github](https://github.com/philipp-r/PHP-Backup-Script "PHP Backup Script on Github")
 
-[Website](http://8qq.de/php-backup/ "PHP Backup Script Website")
 
 ## Info
 
