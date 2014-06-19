@@ -3,7 +3,7 @@
 /* *****************************************
 	General
 ***************************************** */
-define("METHOD", ""); // The backup method ("email" or "ftp")
+define("METHOD", ""); // The backup method ("email", "ftp" or "ftps")
 
 /* *****************************************
 	FTP Settings
