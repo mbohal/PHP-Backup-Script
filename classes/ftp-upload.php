@@ -11,6 +11,7 @@ function ftpSend($filename, $is_ssl = false){
 	} else {
 		die("Error while changing directory to ".FTPDIR." \n ");
 	}
+	ftp_pasv($conn_id, FTPPASSIVE);
 	// upload the file
 	if (ftp_put($conn_id, date("Y-m-d_H-i_").$filename, $filename, FTP_BINARY)) {
 		echo "$filename uploaded \n ";

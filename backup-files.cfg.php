@@ -12,6 +12,7 @@ define("FTPSERVER", ""); // The FTP server
 define("FTPUSER", ""); // Your FTP username
 define("FTPPASS", ""); // Your FTP password
 define("FTPDIR", ""); // The directory to upload the backup
+define("FTPPASSIVE", false); // Sets on/off the passive ftp mode
 
 /* *****************************************
 	Email Settings
