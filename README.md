@@ -1,3 +1,6 @@
+[☠️☠️☠️ NOT MAINTAINED ☠️☠️☠️] 
+
+
 # PHP Backup Script
 
 Version 1.3
